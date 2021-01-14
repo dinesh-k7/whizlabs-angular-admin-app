@@ -1,0 +1,80 @@
+<div class="animated fadeIn mat-elevation-z20 user-form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Edit User</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card-content>
+    <div class="form-container">
+      <!-- Loader -->
+      <div class="table-loading-shade" *ngIf="isLoading">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+      </div>
+
+      <form [formGroup]="editUserForm" (submit)="onSubmit(user)" novalidate>
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label> User name </mat-label>
+          <input matInput formControlName="username" required />
+          <mat-error
+            *ngIf="
+              editUserForm.controls.username.touched &&
+              editUserForm.controls.username.invalid
+            "
+          >
+            <span *ngIf="editUserForm.controls.username.errors.required"
+              >This field is mandatory.</span
+            >
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label> Password </mat-label>
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePwd ? 'password' : 'text'"
+          />
+          <mat-icon matSuffix (click)="hidePwd = !hidePwd">{{
+            hidePwd ? "visibility_off" : "visibility"
+          }}</mat-icon>
+          <mat-error
+            *ngIf="
+              editUserForm.controls.password.touched &&
+              editUserForm.controls.password.invalid
+            "
+          >
+            <span *ngIf="editUserForm.controls.password.errors.required"
+              >This field is mandatory.</span
+            >
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Department</mat-label>
+          <mat-select formControlName="department_id" required>
+            <mat-option *ngFor="let dept of department" [value]="dept.id">
+              {{ dept.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              editUserForm.controls.department_id.touched &&
+              editUserForm.controls.department_id.invalid
+            "
+          >
+            <span *ngIf="editUserForm.controls.department_id.errors.required"
+              >This field is mandatory.</span
+            >
+          </mat-error>
+        </mat-form-field>
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit">
+            Update
+          </button>
+          <button mat-raised-button color="" type="submit" (click)="onCancel()">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</div>

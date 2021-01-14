@@ -1,0 +1,53 @@
+/* Structure */
+.table-container {
+  overflow: auto;
+  height: auto;
+  width: 80vw;
+  margin: 5vh auto 9vh auto !important;
+}
+
+.add-button {
+  position: absolute;
+  top: 15vh;
+  /*right:15vw;*/
+  right: 13vw;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+  z-index: 2;
+}
+
+/* Column Widths */
+.mat-column-number,
+.mat-column-state {
+  max-width: 64px;
+}
+
+.mat-column-created {
+  max-width: 124px;
+}
+
+/* applyFilter */
+.table-header {
+  padding: 0px 8px 0px 24px;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 75vw;
+  height: 10vh !important;
+}
+.table-header {
+  padding-top: 3vh !important;
+}
+
+.button-row,
+.mat-column-personid {
+  display: flex;
+  justify-content: center;
+}
+
+button.mat-menu-item {
+  width: 40px !important;
+}

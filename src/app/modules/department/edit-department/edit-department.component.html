@@ -1,0 +1,43 @@
+<div class="animated fadeIn mat-elevation-z20 department-form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Edit Department</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <mat-card-content>
+    <div class="form-container">
+      <!-- Loader -->
+      <div class="table-loading-shade" *ngIf="isLoading">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+      </div>
+
+      <form [formGroup]="editDepartmentForm" (submit)="onSubmit()" novalidate>
+        <mat-form-field class="form-field" appearance="outline" color="primary">
+          <mat-label> Name </mat-label>
+          <input matInput formControlName="name" required />
+          <mat-error
+            *ngIf="
+              editDepartmentForm.controls.name.touched &&
+              editDepartmentForm.controls.name.invalid
+            "
+          >
+            <span *ngIf="editDepartmentForm.controls.name.errors.required"
+              >This field is mandatory.</span
+            >
+          </mat-error>
+        </mat-form-field>
+        <p *ngIf="isDepartmentExist">
+          <mat-error> Department Name already exist.</mat-error>
+        </p>
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit">
+            Update
+          </button>
+          <button mat-raised-button color="" type="submit" (click)="onCancel()">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+</div>
