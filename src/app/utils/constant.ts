@@ -1,4 +1,4 @@
-const HOST = "https://whizlabs-node-service.herokuapp.com/api";
+const HOST = "https://whizlabs-node-service.herokuapp.com";
 
 export const CONSTANT = {
   permissions: {},
