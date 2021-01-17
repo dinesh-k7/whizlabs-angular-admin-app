@@ -93,6 +93,10 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        <!-- <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="9999">No data Department available.</td>
+        </tr> -->
       </mat-table>
 
       <!-- Table pagination -->

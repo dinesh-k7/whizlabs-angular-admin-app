@@ -15,7 +15,7 @@ export class EditDepartmentComponent implements OnInit {
   department: IDepartment;
   isLoading = false;
   isDepartmentExist = false;
-  department_id: number;
+  departmentId: number;
   constructor(
     private formBuilder: FormBuilder,
     private departmentService: DepartmentService,
@@ -24,8 +24,8 @@ export class EditDepartmentComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.department_id = +this.activateRoute.snapshot.paramMap.get("id");
-    this.getDepartment(this.department_id);
+    this.departmentId = +this.activateRoute.snapshot.paramMap.get("id");
+    this.getDepartment(this.departmentId);
     this.createForm();
   }
 
@@ -40,7 +40,7 @@ export class EditDepartmentComponent implements OnInit {
       this.isLoading = true;
       const { name } = this.editDepartmentForm.value;
       this.departmentService.$getDepartmentByName(name).subscribe((data) => {
-        if (data && data.length >= 1) {
+        if (data && data.length > 1) {
           this.isLoading = false;
           this.isDepartmentExist = true;
         } else {
@@ -57,11 +57,11 @@ export class EditDepartmentComponent implements OnInit {
 
   private updateDepartment(): void {
     this.departmentService
-      .$update({ ...this.editDepartmentForm.value }, this.department_id)
+      .$update({ ...this.editDepartmentForm.value }, this.departmentId)
       .subscribe(
         () => {
           this.isLoading = false;
-          this.router.navigate(["/department"]);
+          // this.router.navigate(["/department"]);
         },
         () => {
           this.isLoading = false;

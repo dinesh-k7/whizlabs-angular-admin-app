@@ -1,0 +1,13 @@
+.division-field-section {
+  display: grid;
+  .table-header {
+    button {
+      margin-bottom: 15px;
+    }
+  }
+
+  td button {
+    display: inline-block;
+    width: 40px;
+  }
+}

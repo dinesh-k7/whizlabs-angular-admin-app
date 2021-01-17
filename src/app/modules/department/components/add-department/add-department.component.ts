@@ -20,6 +20,7 @@ export class AddDepartmentComponent implements OnInit {
   department: IDepartment;
   isLoading = false;
   isDepartmentExist = false;
+  departmentId: number;
   constructor(
     private formBuilder: FormBuilder,
     private departmentService: DepartmentService,
@@ -60,9 +61,11 @@ export class AddDepartmentComponent implements OnInit {
     this.departmentService
       .$save({ ...this.addDepartmentForm.value, active: true })
       .subscribe(
-        () => {
+        (departmentData) => {
           this.isLoading = false;
-          this.router.navigate(["/department"]);
+          const { id } = departmentData;
+          this.departmentId = id;
+          // this.router.navigate(["/department"]);
         },
         () => {
           this.isLoading = false;

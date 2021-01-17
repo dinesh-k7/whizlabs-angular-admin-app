@@ -43,7 +43,7 @@ export class DepartmentService {
     );
   }
 
-  public $save(department: IDepartment): Observable<Response> {
+  public $save(department: IDepartment): Observable<any> {
     return this.http.post<Response>(
       CONSTANT.routes.department.save,
       department

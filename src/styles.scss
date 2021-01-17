@@ -121,7 +121,7 @@ label {
   form {
     display: grid;
     justify-items: center;
-    padding: 75px 0;
+    padding: 65px 0;
     mat-form-field.mat-form-field {
       width: 300px;
     }
@@ -177,6 +177,7 @@ label {
   font-size: 14px;
   width: 75vw;
   height: 10vh !important;
+  padding: 8px;
 }
 .table-header {
   padding-top: 3vh !important;
@@ -186,4 +187,46 @@ label {
 .mat-column-personid {
   display: flex;
   justify-content: center;
+}
+
+.card-header {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  color: #707070;
+  font-size: 24px;
+}
+
+.mat-step-header {
+  pointer-events: none !important;
+}
+
+.stepper-button-container {
+  display: grid;
+  grid-template-columns: 100px 100px;
+  grid-column-gap: 15px;
+  padding: 20px 30px 15px 0px;
+  justify-content: end;
+  button:nth-child(2) {
+    background-color: #3f51b5;
+    color: #fff !important;
+  }
+  button:nth-child(1) {
+    background-color: #fff;
+  }
+}
+
+.stepper-button-container-one {
+  display: grid;
+  grid-template-columns: 100px;
+  padding: 20px 30px 15px 0px;
+  justify-content: end;
+  button {
+    background-color: #3f51b5;
+    color: #fff !important;
+  }
+}
+
+button.mat-menu-item {
+  width: auto !important;
 }

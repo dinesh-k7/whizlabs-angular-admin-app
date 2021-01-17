@@ -1,0 +1,125 @@
+<div class="animated fadeIn mat-elevation-z20 department-form-container">
+  <mat-card-content>
+    <mat-horizontal-stepper>
+      <mat-step label="Step 1">
+        <div class="form-container">
+          <!-- Loader -->
+          <div class="table-loading-shade" *ngIf="isLoading">
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+          </div>
+
+          <mat-card-header class="card-header">
+            <mat-card-title>Department Detail</mat-card-title>
+          </mat-card-header>
+
+          <form
+            [formGroup]="addDepartmentForm"
+            (submit)="onSubmit()"
+            novalidate
+          >
+            <mat-form-field
+              class="form-field"
+              appearance="outline"
+              color="primary"
+            >
+              <mat-label> Name </mat-label>
+              <input matInput formControlName="name" required />
+              <mat-error
+                *ngIf="
+                  addDepartmentForm.controls.name.touched &&
+                  addDepartmentForm.controls.name.invalid
+                "
+              >
+                <span *ngIf="addDepartmentForm.controls.name.errors.required"
+                  >This field is mandatory.</span
+                >
+              </mat-error>
+            </mat-form-field>
+            <p *ngIf="isDepartmentExist">
+              <mat-error> Department Name already exist.</mat-error>
+            </p>
+            <div class="button-container">
+              <button
+                mat-raised-button
+                color="primary"
+                [disabled]="departmentId"
+                type="submit"
+              >
+                Save
+              </button>
+              <button
+                mat-raised-button
+                color=""
+                type="submit"
+                (click)="onCancel()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="stepper-button-container-one">
+          <button
+            mat-button
+            matStepperNext
+            [disabled]="!departmentId"
+            color="primary"
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step label="Step 2">
+        <app-division
+          *ngIf="departmentId"
+          [departmentId]="departmentId"
+        ></app-division>
+        <div class="stepper-button-container">
+          <button
+            type="button"
+            class="mat-raised-button"
+            mat-button
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <button
+            mat-button
+            matStepperNext
+            [disabled]="addDepartmentForm.invalid"
+            color="primary"
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step label="Step 3">
+        <app-division-field
+          *ngIf="departmentId"
+          [departmentId]="departmentId"
+        ></app-division-field>
+        <div class="stepper-button-container">
+          <button
+            type="button"
+            class="mat-raised-button"
+            mat-button
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <button
+            (click)="onCancel()"
+            mat-button
+            matStepperNext
+            color="primary"
+          >
+            Done
+          </button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card-content>
+</div>

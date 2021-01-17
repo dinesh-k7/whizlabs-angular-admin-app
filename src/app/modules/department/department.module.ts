@@ -3,14 +3,20 @@ import { RouterModule } from "@angular/router";
 import { SharedModule } from "~utils/shared.module";
 
 import { DepartmentComponent } from "./department.component";
-import { AddDepartmentComponent } from "./add-department/add-department.component";
-import { EditDepartmentComponent } from "./edit-department/edit-department.component";
+import { AddDepartmentComponent } from "./components/add-department/add-department.component";
+import { EditDepartmentComponent } from "./components/edit-department/edit-department.component";
+import { DivisionComponent } from "./components/division/division.component";
+import { DivisionFieldComponent } from './components/division-field/division-field.component';
+import { ModalFormComponent } from './components/modal-form/modal-form.component';
 
 @NgModule({
   declarations: [
     DepartmentComponent,
     AddDepartmentComponent,
     EditDepartmentComponent,
+    DivisionComponent,
+    DivisionFieldComponent,
+    ModalFormComponent,
   ],
   imports: [
     SharedModule,

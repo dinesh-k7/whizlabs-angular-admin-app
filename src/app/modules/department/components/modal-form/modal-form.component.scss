@@ -1,0 +1,13 @@
+.modal-form-conatiner {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 400px;
+  padding: 60px;
+  mat-form-field {
+    width: 350px;
+  }
+  mat-card-header {
+    justify-self: center;
+    padding-bottom: 20px;
+  }
+}

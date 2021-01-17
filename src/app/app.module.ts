@@ -19,6 +19,8 @@ import { AuthService } from "~services/auth.service";
 import { UserService } from "~services/user.service";
 import { DepartmentService } from "~services/department.service";
 import { ProjectDataService } from "~services/project-data.service";
+import { DivisionService } from "~services/division.service";
+import { DivisionFieldService } from "~services/division-field.service";
 
 import { UserModule } from "~modules/user/user.module";
 import { AdminLayoutModule } from "~modules/admin-layout/admin-layout.module";
@@ -51,6 +53,8 @@ import { DepartmentModule } from "~modules/department/department.module";
     UserService,
     DepartmentService,
     ProjectDataService,
+    DivisionService,
+    DivisionFieldService,
   ],
   entryComponents: [ConfirmComponent],
   bootstrap: [AppComponent],

@@ -34,7 +34,8 @@ export class EditUserComponent implements OnInit {
 
   public createForm() {
     this.editUserForm = this.formBuilder.group({
-      username: [null, Validators.required],
+      name: [null, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
       department_id: [null, [Validators.required]],
     });
@@ -76,9 +77,10 @@ export class EditUserComponent implements OnInit {
     this.userService.$getUser(id).subscribe((userData) => {
       const [user] = userData;
       this.user = {
-        username: user.username,
+        name: user.name,
         department_id: user.department_id,
         password: user.password,
+        email: user.email,
       };
       this.editUserForm.setValue(this.user);
     });

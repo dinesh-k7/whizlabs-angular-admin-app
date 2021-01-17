@@ -1,0 +1,92 @@
+<div class="modal-form-conatiner" *ngIf="isAddDivision">
+  <mat-card-header>
+    <mat-card-title>{{ data && data.title }} </mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="divisionForm" (submit)="onSubmit()" novalidate>
+    <mat-form-field class="form-field" appearance="outline" color="primary">
+      <mat-label> Name </mat-label>
+      <input matInput formControlName="name" required />
+
+      <mat-error
+        *ngIf="
+          divisionForm.controls.name.touched &&
+          divisionForm.controls.name.invalid
+        "
+      >
+        <span *ngIf="divisionForm.controls.name.errors.required"
+          >This field is mandatory.</span
+        >
+      </mat-error>
+    </mat-form-field>
+
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit">Save</button>
+      <button mat-raised-button color="" type="button" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="modal-form-conatiner" *ngIf="isField">
+  <mat-card-header>
+    <mat-card-title>{{ data && data.title }} </mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="fieldForm" (submit)="onSubmit()" novalidate>
+    <mat-form-field>
+      <mat-label>Select Division</mat-label>
+      <mat-select formControlName="division_id" required>
+        <mat-option *ngFor="let division of divisionList" [value]="division.id">
+          {{ division.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          fieldForm.controls.division_id.touched &&
+          fieldForm.controls.division_id.invalid
+        "
+      >
+        <span *ngIf="fieldForm.controls.division_id.errors.required"
+          >This field is mandatory.</span
+        >
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-field" appearance="outline" color="primary">
+      <mat-label> Field Name </mat-label>
+      <input matInput formControlName="name" required />
+      <mat-error
+        *ngIf="
+          fieldForm.controls.name.touched && fieldForm.controls.name.invalid
+        "
+      >
+        <span *ngIf="fieldForm.controls.name.errors.required"
+          >This field is mandatory.</span
+        >
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type" required>
+        <mat-option value="text"> Text </mat-option>
+      </mat-select>
+      <mat-error
+        *ngIf="
+          fieldForm.controls.type.touched && fieldForm.controls.type.invalid
+        "
+      >
+        <span *ngIf="fieldForm.controls.type.errors.required"
+          >This field is mandatory.</span
+        >
+      </mat-error>
+    </mat-form-field>
+
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit">Save</button>
+      <button mat-raised-button color="" type="button" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

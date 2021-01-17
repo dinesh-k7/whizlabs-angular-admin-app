@@ -13,19 +13,35 @@
 
       <form [formGroup]="editUserForm" (submit)="onSubmit(user)" novalidate>
         <mat-form-field class="form-field" appearance="outline">
-          <mat-label> User name </mat-label>
-          <input matInput formControlName="username" required />
+          <mat-label> Name </mat-label>
+          <input matInput formControlName="name" required />
           <mat-error
             *ngIf="
-              editUserForm.controls.username.touched &&
-              editUserForm.controls.username.invalid
+              editUserForm.controls.name.touched &&
+              editUserForm.controls.name.invalid
             "
           >
-            <span *ngIf="editUserForm.controls.username.errors.required"
+            <span *ngIf="editUserForm.controls.name.errors.required"
               >This field is mandatory.</span
             >
           </mat-error>
         </mat-form-field>
+
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label> Email </mat-label>
+          <input matInput formControlName="email" required />
+          <mat-error
+            *ngIf="
+              editUserForm.controls.email.touched &&
+              editUserForm.controls.email.invalid
+            "
+          >
+            <span *ngIf="editUserForm.controls.email.errors.required"
+              >This field is mandatory.</span
+            >
+          </mat-error>
+        </mat-form-field>
+
         <mat-form-field class="form-field" appearance="outline">
           <mat-label> Password </mat-label>
           <input

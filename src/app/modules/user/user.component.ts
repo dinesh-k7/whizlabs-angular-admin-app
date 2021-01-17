@@ -28,6 +28,7 @@ import { ConfirmComponent } from "~components/confirm/confirm.component";
 export class UserComponent implements AfterViewInit, OnInit {
   public displayedColumns = [
     "id",
+    "email",
     "name",
     "department_name",
     "created",
