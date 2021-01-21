@@ -5,15 +5,15 @@ export const CONSTANT = {
   permissions: {},
   routes: {
     authorization: {
-      login: HOST + "/users/admin/login",
+      login: HOST + "/user/admin/login",
       logout: HOST + "/admin/logout",
     },
     user: {
-      list: HOST + "/users",
-      delete: HOST + "/users/delete/:id",
-      save: HOST + "/users/save",
-      get: HOST + "/users/:id",
-      update: HOST + "/users/edit/:id",
+      list: HOST + "/user",
+      delete: HOST + "/user/delete/:id",
+      save: HOST + "/user/save",
+      get: HOST + "/user/:id",
+      update: HOST + "/user/edit/:id",
     },
 
     department: {
@@ -43,7 +43,12 @@ export const CONSTANT = {
 
     project_data: {
       list: HOST + "/project-data",
+      delete: HOST + "/project-data/delete/:id",
+      save: HOST + "/project-data/save",
       get: HOST + "/project-data/:id",
+      update: HOST + "/project-data/edit/:id",
+      get_by_userid: HOST + "/project-data/user/:id",
+      get_form_field: HOST + "/project-data/form-field/:userId/:divisionId",
     },
   },
   ADD_DIVISION: "ADD_DIVISION",
