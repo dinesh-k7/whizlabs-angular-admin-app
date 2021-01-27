@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { CONSTANT } from "~app/utils/constant";
 
 import { Response } from "~app/models/response";
@@ -17,23 +17,8 @@ export class ProjectDataService {
     return this.formSubmitted.asObservable();
   }
 
-  public $getList(
-    sortActive: string,
-    order: string,
-    pageSize: number,
-    page: number,
-    search: string
-  ): Observable<Response> {
-    let params = new HttpParams();
-    params = params.append("active", sortActive);
-    params = params.append("order", order);
-    params = params.append("search", search);
-    params = params.append("pageSize", pageSize.toString());
-    params = params.append("page", page.toString());
-
-    return this.http.get<Response>(CONSTANT.routes.project_data.list, {
-      params: params,
-    });
+  public $getList(): Observable<any> {
+    return this.http.get<any>(CONSTANT.routes.project_data.list);
   }
 
   public $delete(id: number): Observable<Response> {

@@ -1,0 +1,12 @@
+<div class="table-loading-shade" *ngIf="isLoading">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+</div>
+
+<app-dynamic-form
+  *ngIf="dynamicForm"
+  [dynamicForm]="dynamicForm"
+  [formData]="formData"
+  [divisionId]="selectedDivisionId"
+  [divisionFieldId]="divisionFieldId"
+  (onClose)="onClose($event)"
+></app-dynamic-form>

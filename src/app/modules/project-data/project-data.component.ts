@@ -1,40 +1,41 @@
 import { Component, OnInit } from "@angular/core";
 
-import { AfterViewInit, ViewChild, ChangeDetectorRef } from "@angular/core";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
-import { MatTableDataSource } from "@angular/material/table";
+import { AfterViewInit, ChangeDetectorRef } from "@angular/core";
+import { NestedTreeControl } from "@angular/cdk/tree";
+import { MatTreeNestedDataSource } from "@angular/material/tree";
 
-import { merge, of as observableOf } from "rxjs";
-import { catchError, map, startWith, switchMap } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 import { ProjectDataService } from "~services/project-data.service";
-import { ConfirmComponent } from "~components/confirm/confirm.component";
 import { AuthService } from "~services/auth.service";
+
+/**
+ * Project data with nested structure.
+ * Each node has a name and an optional list of children.
+ */
+interface ProjectNode {
+  name: string;
+  id: number;
+  type: string;
+  children?: ProjectNode[];
+}
 
 @Component({
   selector: "app-project-data",
   templateUrl: "./project-data.component.html",
-  styleUrls: ["./project-data.component.css"],
+  styleUrls: ["./project-data.component.scss"],
 })
 export class ProjectDataComponent implements AfterViewInit, OnInit {
-  public displayedColumns = ["id", "name", "department_name", "created"];
-  public pageSizeOptions = [5, 10, 20, 40, 100];
-  public pageSize = 20;
-  public dataSource: any = new MatTableDataSource();
-  public pageEvent: PageEvent;
-  public resultsLength = 0;
-  public page = 1;
+  public userId: number;
+  public departmentId: number;
+  public treeControl = new NestedTreeControl<ProjectNode>(
+    (node) => node.children
+  );
+  public dataSource = new MatTreeNestedDataSource<ProjectNode>();
   public isLoading = false;
-  public isTotalReached = false;
-  public totalItems = 0;
-  public search = "";
-
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  public child: boolean;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -45,10 +46,14 @@ export class ProjectDataComponent implements AfterViewInit, OnInit {
     public snack: MatSnackBar
   ) {}
 
+  hasChild = (_: number, node: ProjectNode) => true;
+
   ngOnInit() {
     if (!this.authService.loggedIn.getValue()) {
       this.router.navigate(["/login"]);
     }
+    this.userId = 17;
+    this.departmentId = 22;
   }
 
   ngAfterViewInit() {
@@ -59,45 +64,47 @@ export class ProjectDataComponent implements AfterViewInit, OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  public onPaginateChange(event: any): void {
-    this.page = event.pageIndex + 1;
-    this.pageSize = event.pageSize;
-    this.getData();
-  }
-
-  public applyFilter(filterValue: string): void {
-    filterValue = filterValue.trim().toLowerCase();
-    this.getData();
-  }
-
   public getData(): void {
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.isLoading = true;
+    this.projectDataService.$getList().subscribe(
+      (projectData) => {
+        this.isLoading = false;
+        const division = [];
 
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoading = true;
-          return this.projectDataService.$getList(
-            this.sort.active,
-            this.sort.direction,
-            this.pageSize,
-            this.page,
-            this.search
+        // Form child element array for tree structure
+        projectData.map((d) => {
+          const checkDivision = division.find((dv) => dv.id === d.division_id);
+          !checkDivision &&
+            division.push({
+              name: d.division_name,
+              id: d.division_id,
+              type: "child",
+              department_id: d.department_id,
+            });
+        });
+
+        // Form parent element array for tree structure
+        const treeData = [];
+        projectData.map((department) => {
+          const checkDepartment = treeData.find(
+            (dp) => dp.id === department.department_id
           );
-        }),
-        map((usersList) => {
-          this.isLoading = false;
-          this.isTotalReached = false;
-          this.totalItems = usersList["length"];
-          return usersList;
-        }),
-        catchError(() => {
-          this.isLoading = false;
-          this.isTotalReached = true;
-          return observableOf([]);
-        })
-      )
-      .subscribe((data) => (this.dataSource.data = data));
+          !checkDepartment &&
+            treeData.push({
+              name: department.department_name,
+              id: department.department_id,
+              type: "parent",
+              children: division.filter(
+                (dv) => dv.department_id === department.department_id
+              ),
+            });
+        });
+
+        this.dataSource.data = treeData;
+      },
+      () => {
+        this.isLoading = false;
+      }
+    );
   }
 }

@@ -1,9 +1,9 @@
 export interface IProjectData {
   id?: number;
-  name: string;
-  department_id?: string;
-  department_name: string;
+  division_field_id?: string;
+  department_id?: number;
+  division_id: number;
   created_at?: Date;
-  date: Date;
-  username: string;
+  user_id: number;
+  data?: any;
 }

@@ -14,6 +14,7 @@ export const CONSTANT = {
       save: HOST + "/user/save",
       get: HOST + "/user/:id",
       update: HOST + "/user/edit/:id",
+      get_division_field: HOST + "/division-field/division/:id",
     },
 
     department: {

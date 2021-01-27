@@ -61,4 +61,10 @@ export class UserService {
       user
     );
   }
+
+  public $getDivisionField(id: number): Observable<any> {
+    return this.http.get<Response>(
+      CONSTANT.routes.user.get_division_field.replace(":id", String(id))
+    );
+  }
 }

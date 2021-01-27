@@ -1,0 +1,44 @@
+<div class="form-container">
+  <mat-card-header class="card-header">
+    <mat-card-title> Project Information</mat-card-title>
+  </mat-card-header>
+
+  <!-- Loader -->
+  <div class="table-loading-shade" *ngIf="isLoading">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
+
+  <form [formGroup]="dynamicForm" novalidate>
+    <ng-template ngFor let-input [ngForOf]="formData">
+      <ng-container [ngSwitch]="input.controlType">
+        <ng-template [ngSwitchCase]="'text'">
+          <mat-form-field
+            class="form-field"
+            appearance="outline"
+            color="primary"
+          >
+            <mat-label> {{ input.label }} </mat-label>
+            <input
+              matInput
+              [formControlName]="input.controlName"
+              [type]="input.valueType"
+              [name]="input.controlName"
+              [required]="input.validators.required"
+            />
+            <mat-error
+              *ngIf="
+                dynamicForm.get(input.controlName).invalid &&
+                (dynamicForm.get(input.controlName).dirty ||
+                  dynamicForm.get(input.controlName).touched)
+              "
+            >
+              <span *ngIf="dynamicForm.get(input.controlName).errors.required"
+                >This field is mandatory.</span
+              >
+            </mat-error>
+          </mat-form-field>
+        </ng-template>
+      </ng-container>
+    </ng-template>
+  </form>
+</div>

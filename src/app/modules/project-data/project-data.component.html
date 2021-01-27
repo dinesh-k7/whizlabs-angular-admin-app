@@ -1,82 +1,69 @@
-<div class="animated fadeIn table-container mat-elevation-z20">
-  <h4>Project Data goes here</h4>
-  <!-- <mat-card>
-    <mat-card-header>
-      <mat-card-title>Project Data</mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-Table loading spinner 
-      <div class="table-loading-shade" *ngIf="isLoading">
+<div class="animated fadeIn table-container">
+  <!-- Table loading spinner -->
+  <!-- <div class="table-loading-shade" *ngIf="isLoading">
         <mat-spinner *ngIf="isLoading"></mat-spinner>
-      </div>
+      </div> -->
 
-      <div class="table-header">
-     Table search input -->
-  <!-- <mat-form-field class="filter-field">
-              <input
-                matInput
-                (keyup)="applyFilter($event.target.value)"
-                placeholder="Filter by name, age or gender"
-                [(ngModel)]="search"
-              />
-              <button
-                mat-button
-                *ngIf="search"
-                matSuffix
-                mat-icon-button
-                aria-label="Clear"
-                (click)="search = ''; applyFilter('')"
+  <!-- 
+        Tree view
+      -->
+
+  <table class="mat-elevation-z8">
+    <th>Department - Division</th>
+    <tr>
+      <td>
+        <mat-tree
+          [dataSource]="dataSource"
+          [treeControl]="treeControl"
+          class="project-tree"
+        >
+          <!-- This is the tree node template for leaf nodes -->
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+            <li class="mat-tree-node">
+              <!-- use a disabled button to provide padding for tree leaf -->
+              <button mat-icon-button disabled></button>
+              {{ node.name }}
+            </li>
+          </mat-tree-node>
+          <!-- This is the tree node template for expandable nodes -->
+          <mat-nested-tree-node
+            *matTreeNodeDef="let node; when: hasChild"
+            (click)="showChildren(node)"
+          >
+            <li>
+              <div class="mat-tree-node">
+                <button
+                  (click)="showChildren(node)"
+                  mat-icon-button
+                  matTreeNodeToggle
+                  [attr.aria-label]="'Toggle ' + node.name"
+                >
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{
+                      treeControl.isExpanded(node)
+                        ? "expand_more"
+                        : "chevron_right"
+                    }}
+                  </mat-icon>
+                </button>
+                <div>{{ node.name }}</div>
+
+                <div
+                  class="project-data-node"
+                  *ngIf="node.type === 'child' && treeControl.isExpanded(node)"
+                >
+                  <app-project-list [divisionId]="node.id"></app-project-list>
+                </div>
+              </div>
+              <ul
+                [class.project-tree-invisible]="!treeControl.isExpanded(node)"
               >
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field> 
-      </div>
-
-      <mat-table
-        #table
-        [dataSource]="dataSource"
-        class="person-table"
-        matSort
-        matSortActive="id"
-        matSortDisableClear
-        matSortDirection="desc"
-      >
- Table content 
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef mat-sort-header
-            >No.</mat-header-cell
-          >
-          <mat-cell *matCellDef="let row; let i = index">
-            {{ i + 1 }}
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef mat-sort-header
-            >Project Name</mat-header-cell
-          >
-          <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="created">
-          <mat-header-cell *matHeaderCellDef>Created at</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{
-            row.created_at | date: "dd/MM/yyyy"
-          }}</mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-      </mat-table>
-Table pagination
-      <mat-paginator
-        [pageSizeOptions]="pageSizeOptions"
-        [length]="totalItems"
-        [pageSize]="pageSize"
-        (page)="onPaginateChange($event)"
-      >
-      </mat-paginator>
-    </mat-card-content>
-  </mat-card> -->
+                <ng-container matTreeNodeOutlet></ng-container>
+              </ul>
+            </li>
+          </mat-nested-tree-node>
+        </mat-tree>
+      </td>
+    </tr>
+  </table>
 </div>
