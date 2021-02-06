@@ -67,7 +67,11 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header
             >Name</mat-header-cell
           >
-          <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
+          <mat-cell *matCellDef="let row">
+            <a href="#" (click)="displayDivision($event, row.id)">{{
+              row.name
+            }}</a></mat-cell
+          >
         </ng-container>
 
         <ng-container matColumnDef="created">

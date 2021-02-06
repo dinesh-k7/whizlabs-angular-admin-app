@@ -15,4 +15,5 @@ export interface IModalForm {
   division_list: IDivision[];
   division_field: IDivisionField;
   project_id: number;
+  isDisplay: boolean;
 }

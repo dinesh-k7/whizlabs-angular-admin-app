@@ -5,8 +5,9 @@ export interface IDivision {
 }
 
 export interface IDivisionField {
-  id?: number;
+  fieldId?: number;
   division_id: string;
   name: string;
   type: string;
+  isDisplay: boolean;
 }

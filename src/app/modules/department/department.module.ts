@@ -8,6 +8,7 @@ import { EditDepartmentComponent } from "./components/edit-department/edit-depar
 import { DivisionComponent } from "./components/division/division.component";
 import { DivisionFieldComponent } from './components/division-field/division-field.component';
 import { ModalFormComponent } from './components/modal-form/modal-form.component';
+import { DivisionDetailsComponent } from './components/division-details/division-details.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ModalFormComponent } from './components/modal-form/modal-form.component
     DivisionComponent,
     DivisionFieldComponent,
     ModalFormComponent,
+    DivisionDetailsComponent,
   ],
   imports: [
     SharedModule,

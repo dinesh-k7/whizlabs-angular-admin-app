@@ -18,6 +18,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { DepartmentService } from "~services/department.service";
 import { AuthService } from "~services/auth.service";
 import { ConfirmComponent } from "~components/confirm/confirm.component";
+import { DivisionDetailsComponent } from "./components/division-details/division-details.component";
 
 @Component({
   selector: "app-department",
@@ -36,6 +37,7 @@ export class DepartmentComponent implements OnInit {
   public isTotalReached = false;
   public totalItems = 0;
   public search = "";
+  public details: any = [];
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -128,5 +130,57 @@ export class DepartmentComponent implements OnInit {
 
   public addDepartment(): void {
     this.router.navigate(["/department/add-department"]);
+  }
+
+  public displayDivision(event: any, id: number): void {
+    event.preventDefault();
+    this.isLoading = true;
+    if (id) {
+      this.departmentService.$getDetails(id).subscribe(
+        (data) => {
+          this.isLoading = false;
+          const details = [];
+          if (data && data.length) {
+            data.map((d) => {
+              const index = details.findIndex(
+                (detail) => detail.divisionId === d.division_id
+              );
+              if (index === -1) {
+                details.push({
+                  divisionId: d.division_id,
+                  name: d.division_name,
+                  fields: [
+                    {
+                      id: d.fieldId,
+                      name: d.name,
+                      type: d.type,
+                    },
+                  ],
+                });
+              } else {
+                const field = {
+                  id: d.fieldId,
+                  name: d.name,
+                  type: d.type,
+                };
+                details[index].fields.push(field);
+              }
+
+              return details;
+            });
+          }
+          this.details = details;
+          const dialogRef = this.dialog.open(DivisionDetailsComponent, {
+            width: "800px",
+            data: {
+              details: this.details,
+            },
+          });
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
+    }
   }
 }

@@ -10,4 +10,14 @@
     justify-self: center;
     padding-bottom: 20px;
   }
+  .hidden {
+    display: none;
+  }
+  .radio-button {
+    padding-left: 8px;
+    mat-radio-group,
+    mat-radio-button {
+      padding-left: 16px;
+    }
+  }
 }

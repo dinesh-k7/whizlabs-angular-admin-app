@@ -52,8 +52,6 @@ export class ProjectDataComponent implements AfterViewInit, OnInit {
     if (!this.authService.loggedIn.getValue()) {
       this.router.navigate(["/login"]);
     }
-    this.userId = 17;
-    this.departmentId = 22;
   }
 
   ngAfterViewInit() {

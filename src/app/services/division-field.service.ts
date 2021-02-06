@@ -14,7 +14,7 @@ export class DivisionFieldService {
 
   public $getList(id: number): Observable<any> {
     return this.http.get<Response>(
-      CONSTANT.routes.division_field.list.replace(":id", String(id))
+      CONSTANT.routes.department.get_detail.replace(":id", String(id))
     );
   }
 

@@ -82,7 +82,7 @@ export class DivisionFieldComponent implements OnInit {
   }
 
   public deleteDivisionField(row: IDivisionField): void {
-    const { id } = row;
+    const { fieldId } = row;
     const dialogRef = this.dialog.open(ConfirmComponent, {
       width: "400px",
       data: {
@@ -93,7 +93,7 @@ export class DivisionFieldComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.divisionFieldService.$delete(id).subscribe((data: any) => {
+        this.divisionFieldService.$delete(fieldId).subscribe((data: any) => {
           this.getDivisionField();
         });
       }

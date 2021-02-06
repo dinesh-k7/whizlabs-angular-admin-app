@@ -2,6 +2,10 @@
   <mat-card-header>
     <mat-card-title>{{ data && data.title }} </mat-card-title>
   </mat-card-header>
+
+  <div class="table-loading-shade" *ngIf="isLoading">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+  </div>
   <form [formGroup]="divisionForm" (submit)="onSubmit()" novalidate>
     <mat-form-field class="form-field" appearance="outline" color="primary">
       <mat-label> Name </mat-label>
@@ -81,6 +85,31 @@
         >
       </mat-error>
     </mat-form-field>
+
+    <div class="form-field radio-button" appearance="outline" color="primary">
+      <label>Show field: </label>
+
+      <mat-radio-group required formControlName="isDisplay">
+        <mat-radio-button
+          value="true"
+          color="primary"
+          [checked]="fieldForm.value.isDisplay"
+          >Yes</mat-radio-button
+        >
+        <mat-radio-button value="false" color="primary">No</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-error
+        *ngIf="
+          fieldForm.controls.isDisplay.touched &&
+          fieldForm.controls.isDisplay.invalid
+        "
+      >
+        <span *ngIf="fieldForm.controls.isDisplay.errors.required"
+          >This field is mandatory.</span
+        >
+      </mat-error>
+    </div>
 
     <div class="button-container">
       <button mat-raised-button color="primary" type="submit">Save</button>

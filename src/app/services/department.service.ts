@@ -62,4 +62,10 @@ export class DepartmentService {
       department
     );
   }
+
+  public $getDetails(id: number): Observable<any> {
+    return this.http.get<Response>(
+      CONSTANT.routes.department.get_detail.replace(":id", String(id))
+    );
+  }
 }

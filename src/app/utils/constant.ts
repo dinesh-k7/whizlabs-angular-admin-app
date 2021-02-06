@@ -24,6 +24,7 @@ export const CONSTANT = {
       get: HOST + "/department/:id",
       filter: HOST + "/department/findByFilter",
       update: HOST + "/department/edit/:id",
+      get_detail: HOST + "/department/division/division-field/:id",
     },
 
     division: {
@@ -40,6 +41,7 @@ export const CONSTANT = {
       save: HOST + "/division-field/save",
       get: HOST + "/division-field/:id",
       update: HOST + "/division-field/edit/:id",
+      all: HOST + "/division-field/all/:id",
     },
 
     project_data: {

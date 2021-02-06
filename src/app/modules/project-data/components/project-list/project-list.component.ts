@@ -36,14 +36,14 @@ export class ProjectListComponent implements OnInit {
       (data) => {
         this.isLoading = false;
         const [source, fields] = data;
-        if (fields && fields.length && source && source.length) {
-          this.columns = fields.map((field) => {
+        const pfields = fields.filter((field) => field.isDisplay);
+        if (pfields && pfields.length && source && source.length) {
+          this.columns = pfields.map((field) => {
             return {
               name: field.name,
               label: field.name.toLowerCase().split(" ").join("_"),
             };
           });
-
           this.dataSource = source.map((d) => {
             const [data] = JSON.parse(d.data);
             return { ...data, id: d.id };

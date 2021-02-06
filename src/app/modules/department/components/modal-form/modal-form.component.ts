@@ -45,7 +45,7 @@ export class ModalFormComponent implements OnInit {
       this.isField = action === CONSTANT.ADD_DIVISION_FIELD ? true : false;
       this.departmentId = department_id;
       this.divisionId = division_id || (division && division.id);
-      this.divisionFieldId = division_field && division_field.id;
+      this.divisionFieldId = division_field && division_field["fieldId"];
       // this.divisionList = division_list;
       this.getDivision(department_id);
     }
@@ -73,13 +73,19 @@ export class ModalFormComponent implements OnInit {
     this.fieldForm = this.formBuilder.group({
       name: [null, Validators.required],
       type: [null, Validators.required],
+      isDisplay: ["true", Validators.required],
       division_id: [null, Validators.required],
     });
     if (this.divisionFieldId) {
       const {
-        division_field: { name, type, division_id },
+        division_field: { name, type, division_id, isDisplay },
       } = this.data;
-      this.fieldForm.setValue({ name, type, division_id });
+      this.fieldForm.setValue({
+        name,
+        type,
+        division_id,
+        isDisplay: isDisplay ? "true" : "false",
+      });
     }
   }
 
@@ -112,6 +118,8 @@ export class ModalFormComponent implements OnInit {
   }
 
   private saveDivisionField(): void {
+    const { isDisplay } = this.fieldForm.value;
+    this.fieldForm.value.isDisplay = isDisplay === "false" ? false : true;
     this.divisionFieldService
       .$save({ ...this.fieldForm.value, department_id: this.departmentId })
       .subscribe(
@@ -143,9 +151,14 @@ export class ModalFormComponent implements OnInit {
   }
 
   private updateDivisionField(_id: number): void {
+    const { isDisplay } = this.fieldForm.value;
+    this.fieldForm.value.isDisplay = isDisplay === "false" ? false : true;
     this.divisionFieldService
       .$update(
-        { ...this.fieldForm.value, department_id: this.departmentId },
+        {
+          ...this.fieldForm.value,
+          department_id: this.departmentId,
+        },
         _id
       )
       .subscribe(
