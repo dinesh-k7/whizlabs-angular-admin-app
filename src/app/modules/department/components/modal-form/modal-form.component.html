@@ -89,15 +89,7 @@
     <div class="form-field radio-button" appearance="outline" color="primary">
       <label>Display in Table </label>
 
-      <mat-radio-group required formControlName="isDisplay">
-        <mat-radio-button
-          value="true"
-          color="primary"
-          [checked]="fieldForm.value.isDisplay"
-          >Yes</mat-radio-button
-        >
-        <mat-radio-button value="false" color="primary">No</mat-radio-button>
-      </mat-radio-group>
+      <mat-checkbox formControlName="isDisplay" color="primary"></mat-checkbox>
 
       <mat-error
         *ngIf="

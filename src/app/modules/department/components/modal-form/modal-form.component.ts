@@ -23,6 +23,7 @@ export class ModalFormComponent implements OnInit {
   divisionId: number;
   divisionFieldId: number;
   divisionList: IDivision[] = [];
+  checked = true;
   constructor(
     public dialogRef: MatDialogRef<ModalFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IModalForm,
@@ -73,7 +74,7 @@ export class ModalFormComponent implements OnInit {
     this.fieldForm = this.formBuilder.group({
       name: [null, Validators.required],
       type: [null, Validators.required],
-      isDisplay: ["true", Validators.required],
+      isDisplay: [true, Validators.required],
       division_id: [null, Validators.required],
     });
     if (this.divisionFieldId) {
@@ -84,7 +85,7 @@ export class ModalFormComponent implements OnInit {
         name,
         type,
         division_id,
-        isDisplay: isDisplay ? "true" : "false",
+        isDisplay: isDisplay ? true : false,
       });
     }
   }
@@ -119,7 +120,6 @@ export class ModalFormComponent implements OnInit {
 
   private saveDivisionField(): void {
     const { isDisplay } = this.fieldForm.value;
-    this.fieldForm.value.isDisplay = isDisplay === "false" ? false : true;
     this.divisionFieldService
       .$save({ ...this.fieldForm.value, department_id: this.departmentId })
       .subscribe(
@@ -152,7 +152,6 @@ export class ModalFormComponent implements OnInit {
 
   private updateDivisionField(_id: number): void {
     const { isDisplay } = this.fieldForm.value;
-    this.fieldForm.value.isDisplay = isDisplay === "false" ? false : true;
     this.divisionFieldService
       .$update(
         {
@@ -188,5 +187,9 @@ export class ModalFormComponent implements OnInit {
         this.divisionList = [];
       }
     );
+  }
+
+  public onClick($event): void {
+    this.checked = !this.checked;
   }
 }
