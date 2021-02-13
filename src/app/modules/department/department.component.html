@@ -34,6 +34,7 @@
           </mat-form-field> -->
 
         <!-- Add button -->
+
         <button
           (click)="addDepartment()"
           mat-raised-button
@@ -61,17 +62,66 @@
           <mat-cell *matCellDef="let row; let i = index">
             {{ i + 1 }}
           </mat-cell>
+          <pre></pre>
         </ng-container>
 
         <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef mat-sort-header
-            >Name</mat-header-cell
-          >
-          <mat-cell *matCellDef="let row">
-            <a href="#" (click)="displayDivision($event, row.id)">{{
-              row.name
-            }}</a></mat-cell
-          >
+            >Name
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row; let i = index">
+            <mat-tree
+              [dataSource]="[treeDataSource.data[i]]"
+              [treeControl]="treeControl"
+              class="project-tree"
+            >
+              <!-- This is the tree node template for leaf nodes -->
+              <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+                <li class="mat-tree-node">
+                  <!-- use a disabled button to provide padding for tree leaf -->
+                  <button mat-icon-button disabled></button>
+                  {{ node.name }}
+                </li>
+              </mat-tree-node>
+              <!-- This is the tree node template for expandable nodes -->
+              <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+                <li>
+                  <div class="mat-tree-node">
+                    <button
+                      mat-icon-button
+                      matTreeNodeToggle
+                      [attr.aria-label]="'Toggle ' + node.name"
+                    >
+                      <mat-icon class="mat-icon-rtl-mirror">
+                        {{
+                          treeControl.isExpanded(node)
+                            ? "expand_more"
+                            : "chevron_right"
+                        }}
+                      </mat-icon>
+                    </button>
+                    <div>
+                      {{ node.name }}
+                    </div>
+                  </div>
+                  <ul
+                    [class.project-tree-invisible]="
+                      !treeControl.isExpanded(node)
+                    "
+                  >
+                    <app-division-details
+                      *ngIf="
+                        treeControl.isExpanded(node) && node.type === 'child'
+                      "
+                      [node]="node"
+                      [divisionId]="node.id"
+                    ></app-division-details>
+                    <ng-container matTreeNodeOutlet></ng-container>
+                  </ul>
+                </li>
+              </mat-nested-tree-node>
+            </mat-tree>
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="created">

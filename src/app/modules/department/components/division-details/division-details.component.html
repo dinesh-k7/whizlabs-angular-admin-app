@@ -1,19 +1,14 @@
-<mat-card-header>
-  <mat-card-title>Division - Field</mat-card-title>
-</mat-card-header>
-<div *ngFor="let data of details">
-  <mat-card>
-    <span>{{ data.name }}</span>
-    <mat-card-content>
-      <mat-list role="list" *ngIf="data.fields && data.fields.length">
-        <mat-list-item role="listitem" *ngFor="let field of data.fields">
-          {{ field.name }}</mat-list-item
-        >
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
+<!-- Table loading spinner -->
+<div class="table-loading-shade" *ngIf="isLoading">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
 </div>
 
-<mat-card *ngIf="details && !details.length">
-  &nbsp; &nbsp; No Division field found.
-</mat-card>
+<mat-list role="list" *ngIf="fields && fields.length">
+  <mat-list-item role="listitem" *ngFor="let field of fields">
+    {{ field.name }}</mat-list-item
+  >
+</mat-list>
+
+<div *ngIf="fields && !fields.length && !isLoading">
+  &nbsp; &nbsp; No field found.
+</div>

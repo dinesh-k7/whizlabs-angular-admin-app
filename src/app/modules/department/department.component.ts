@@ -8,7 +8,8 @@ import {
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-
+import { NestedTreeControl } from "@angular/cdk/tree";
+import { MatTreeNestedDataSource } from "@angular/material/tree";
 import { merge, of as observableOf } from "rxjs";
 import { catchError, map, startWith, switchMap } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -19,6 +20,13 @@ import { DepartmentService } from "~services/department.service";
 import { AuthService } from "~services/auth.service";
 import { ConfirmComponent } from "~components/confirm/confirm.component";
 import { DivisionDetailsComponent } from "./components/division-details/division-details.component";
+
+interface ProjectNode {
+  name: string;
+  id: number;
+  type: string;
+  children?: ProjectNode[];
+}
 
 @Component({
   selector: "app-department",
@@ -38,6 +46,12 @@ export class DepartmentComponent implements OnInit {
   public totalItems = 0;
   public search = "";
   public details: any = [];
+  public divisionId: number;
+  public treeControl = new NestedTreeControl<ProjectNode>(
+    (node) => node.children
+  );
+  public treeDataSource = new MatTreeNestedDataSource<ProjectNode>();
+  public child: boolean;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -49,6 +63,8 @@ export class DepartmentComponent implements OnInit {
     public dialog: MatDialog,
     public snack: MatSnackBar
   ) {}
+
+  hasChild = (_: number, node: ProjectNode) => true;
 
   ngOnInit(): void {
     if (!this.authService.loggedIn.getValue()) {
@@ -83,7 +99,7 @@ export class DepartmentComponent implements OnInit {
         startWith({}),
         switchMap(() => {
           this.isLoading = true;
-          return this.departmentService.$getList(
+          return this.departmentService.$getDepartmentDivision(
             this.sort.active,
             this.sort.direction,
             this.pageSize,
@@ -103,7 +119,26 @@ export class DepartmentComponent implements OnInit {
           return observableOf([]);
         })
       )
-      .subscribe((data) => (this.dataSource.data = data));
+      .subscribe((data) => {
+        // Form parent element array for tree structure
+        const treeData = [];
+
+        data.map((department) => {
+          const index = treeData.findIndex((data) => data.id === department.id);
+          if (index === -1) {
+            treeData.push({
+              name: department.name,
+              id: department.id,
+              type: "parent",
+              children: department.divisions,
+            });
+          } else {
+          }
+        });
+
+        this.treeDataSource.data = treeData;
+        this.dataSource.data = data;
+      });
   }
 
   public editDepartment(department_id: number): void {
@@ -132,55 +167,12 @@ export class DepartmentComponent implements OnInit {
     this.router.navigate(["/department/add-department"]);
   }
 
-  public displayDivision(event: any, id: number): void {
-    event.preventDefault();
-    this.isLoading = true;
-    if (id) {
-      this.departmentService.$getDetails(id).subscribe(
-        (data) => {
-          this.isLoading = false;
-          const details = [];
-          if (data && data.length) {
-            data.map((d) => {
-              const index = details.findIndex(
-                (detail) => detail.divisionId === d.division_id
-              );
-              if (index === -1) {
-                details.push({
-                  divisionId: d.division_id,
-                  name: d.division_name,
-                  fields: [
-                    {
-                      id: d.fieldId,
-                      name: d.name,
-                      type: d.type,
-                    },
-                  ],
-                });
-              } else {
-                const field = {
-                  id: d.fieldId,
-                  name: d.name,
-                  type: d.type,
-                };
-                details[index].fields.push(field);
-              }
-
-              return details;
-            });
-          }
-          this.details = details;
-          const dialogRef = this.dialog.open(DivisionDetailsComponent, {
-            width: "800px",
-            data: {
-              details: this.details,
-            },
-          });
-        },
-        () => {
-          this.isLoading = false;
-        }
-      );
+  public displayDivision(node: any): void {
+    const { type, id } = node;
+    if (type === "child") {
+      this.divisionId = id;
+    } else {
+      this.divisionId = null;
     }
   }
 }

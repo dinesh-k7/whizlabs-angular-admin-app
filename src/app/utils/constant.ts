@@ -25,6 +25,7 @@ export const CONSTANT = {
       filter: HOST + "/department/findByFilter",
       update: HOST + "/department/edit/:id",
       get_detail: HOST + "/department/division/division-field/:id",
+      all: HOST + "/department/division/field/all",
     },
 
     division: {

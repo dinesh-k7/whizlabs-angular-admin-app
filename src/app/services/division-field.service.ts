@@ -30,6 +30,12 @@ export class DivisionFieldService {
     );
   }
 
+  public $listFields(id: number): Observable<any> {
+    return this.http.get<Response>(
+      CONSTANT.routes.division_field.list.replace(":id", String(id))
+    );
+  }
+
   public $save(division: IDivisionField): Observable<Response> {
     return this.http.post<Response>(
       CONSTANT.routes.division_field.save,

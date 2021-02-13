@@ -18,7 +18,7 @@ export class DepartmentService {
     pageSize: number,
     page: number,
     search: string
-  ): Observable<Response> {
+  ): Observable<any> {
     let params = new HttpParams();
     params = params.append("active", sortActive);
     params = params.append("order", order);
@@ -67,5 +67,23 @@ export class DepartmentService {
     return this.http.get<Response>(
       CONSTANT.routes.department.get_detail.replace(":id", String(id))
     );
+  }
+
+  public $getDepartmentDivision(
+    sortActive: string,
+    order: string,
+    pageSize: number,
+    page: number,
+    search: string
+  ): Observable<any> {
+    let params = new HttpParams();
+    params = params.append("active", sortActive);
+    params = params.append("order", order);
+    params = params.append("search", search);
+    params = params.append("pageSize", pageSize.toString());
+    params = params.append("page", page.toString());
+    return this.http.get<Response>(CONSTANT.routes.department.all, {
+      params: params,
+    });
   }
 }
